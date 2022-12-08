@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.16 as build
 
 RUN apk add --no-cache \
         ca-certificates \
@@ -28,3 +28,9 @@ RUN set -eux; \
     rustc --version;
 
 COPY . .
+
+RUN cargo build --release
+
+EXPOSE 8080
+
+CMD ["./target/release/rust_actix_mongodb"]
